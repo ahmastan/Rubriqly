@@ -25,6 +25,7 @@ export const privacyPolicy: LegalDoc = {
   updated: UPDATED,
   intro: [
     'This page explains what information Rubriqly collects, why, who else handles it and what you can do about it. “Rubriqly”, “we” and “us” mean the Rubriqly service and the people who run it.',
+    'This policy covers the Rubriqly service at rubriqly.com. Rubriqly’s code is open source, so other people can run their own copies; those are operated by them, under their own policies, and this policy doesn’t apply to them.',
   ],
   summary: [
     'Your drafts are saved in your browser, on your device. We don’t store them on our servers.',
@@ -90,6 +91,7 @@ export const privacyPolicy: LegalDoc = {
           ],
         },
         'The website’s fonts and code are served from Rubriqly’s own site; your browser doesn’t contact other companies to load them. We may also share information if the law requires it, or to protect Rubriqly’s users or the service from harm.',
+        'The website links to Rubriqly’s source code on GitHub. If you visit GitHub, open an issue or send a security report there, GitHub’s own privacy policy applies, and issues and comments you post there are public.',
       ],
     },
     {
@@ -160,6 +162,7 @@ export const termsOfUse: LegalDoc = {
   updated: UPDATED,
   intro: [
     'These terms are the agreement between you and Rubriqly (“we”, “us”) for using the Rubriqly website and app. By creating an account or using Rubriqly, you agree to them and to our Privacy Policy.',
+    'They cover the Rubriqly service at rubriqly.com. Copies of Rubriqly run by others aren’t operated by us and aren’t covered by these terms.',
   ],
   sections: [
     {
@@ -203,6 +206,7 @@ export const termsOfUse: LegalDoc = {
       heading: 'Rubriqly’s code',
       blocks: [
         'Rubriqly’s source code is published under the MIT License on GitHub. That license covers the code; these terms cover your use of the hosted service on this website.',
+        'The license doesn’t cover the Rubriqly name or logo. If you run your own copy, please use a different name, and don’t present it as the official Rubriqly service.',
       ],
     },
     {
