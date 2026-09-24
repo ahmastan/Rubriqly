@@ -245,7 +245,7 @@ export const faq = {
     },
     {
       q: 'Is Rubriqly open source?',
-      a: 'Yes. Rubriqly’s core code is open source under the MIT license and published on GitHub, so you can see exactly how drafts are scored, suggest improvements or run your own copy. This site is the hosted version.',
+      a: 'Yes. Rubriqly is open source under the MIT license and published on GitHub, so you can see exactly how drafts are scored, suggest improvements or run your own copy. This site is the hosted version.',
     },
     {
       q: 'Which writing does it work best for?',

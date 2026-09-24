@@ -57,7 +57,14 @@ describe('Terms of use', () => {
 describe('Legal pages follow the honesty rules', () => {
   it.each(['/privacy', '/terms', '/contact'])('%s', async (path) => {
     const text = (await pageText(path)).toLowerCase()
-    for (const banned of ['grader', 'guaranteed', 'cloudflare']) {
+    for (const banned of [
+      'proprietary',
+      'all rights reserved',
+      'closed source',
+      'grader',
+      'guaranteed',
+      'cloudflare',
+    ]) {
       expect(text).not.toContain(banned)
     }
     // Every mention of "grade" is a denial.

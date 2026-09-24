@@ -202,7 +202,7 @@ export const termsOfUse: LegalDoc = {
     {
       heading: 'Rubriqly’s code',
       blocks: [
-        'Rubriqly’s core source code is published under the MIT License on GitHub. That license covers the code; these terms cover your use of the hosted service on this website.',
+        'Rubriqly’s source code is published under the MIT License on GitHub. That license covers the code; these terms cover your use of the hosted service on this website.',
       ],
     },
     {

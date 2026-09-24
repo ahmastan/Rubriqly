@@ -1,7 +1,7 @@
 import type { Assignment, CheckResult, Draft, Rubric } from './types'
 
-// Drafts stay on this device (agreed 2026-09-22): assignments, drafts, check results and
-// private rubrics live in the browser's localStorage. Only the text being checked leaves the
+// Drafts stay on this device: assignments, drafts, check results and the rubrics a student
+// creates live in the browser's localStorage. Only the text being checked leaves the
 // device, sent to the backend for scoring. Storage can be unavailable (private windows, blocked
 // site data), so every access is guarded and falls back to memory for the current tab.
 //

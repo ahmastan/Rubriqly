@@ -80,7 +80,15 @@ describe('Landing page', () => {
     await renderRoute('/')
     await screen.findByRole('heading', { level: 1 })
     const text = document.body.textContent!.toLowerCase()
-    for (const banned of ['grader', 'guaranteed', 'ace your', 'cloudflare']) {
+    for (const banned of [
+      'proprietary',
+      'all rights reserved',
+      'closed source',
+      'grader',
+      'guaranteed',
+      'ace your',
+      'cloudflare',
+    ]) {
       expect(text).not.toContain(banned)
     }
     // Every mention of "grade" is a denial or the FAQ question that answers "No".

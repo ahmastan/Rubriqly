@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Rubriqly** lets students check a draft against a rubric before turning it in. It shows an estimated level per criterion with confidence, the rubric author's tip for that level, paragraph tags (claim / evidence / analysis), a checklist, and progress across drafts. Scoring uses the **Jev** model (TypeSafe) through **Vercel AI Gateway**. Jev only returns scores and yes/no answers; it cannot write text.
 
-- **Open source (MIT).** This is the public repo. The hosted service at rubriqly.com is deployed from a separate private repo that merges this one and adds its own layer. Keep deployment-specific values out of this repo: they're settings (`VITE_*` build variables, backend environment variables, and a deployment's own `render.yaml`; see `render.example.yaml`).
+- **Open source (MIT).** The hosted service at rubriqly.com is one deployment of this code. Keep deployment-specific values out of this repo: they're settings (`VITE_*` build variables, backend environment variables, and a deployment's own `render.yaml`; see `render.example.yaml`).
 - **Product rules:** results are always "an estimated level … not a grade", and the product never writes or rewrites student text.
 - **Naming:** "Rubriqly" (capital R) in anything users read. Lowercase `rubriqly` for identifiers: folders, the Python package, npm names, storage keys, file names.
 - **Layout:** two sibling folders under this root (`rubriqly-frontend/`, `rubriqly-backend/`). The root holds shared config (CI, pre-commit, `.env.example`, `render.example.yaml`) and `docs/`.
@@ -62,7 +62,7 @@ CI (`.github/workflows/ci.yml`) runs:
 - **Demo labels:** "Demo results" shows only on old checks with `model === 'mock'`. The builder's "Test on a sample essay" is still simulated in the browser (`mockJev.ts`) and labelled "demo result".
 - `PRIVACY_NOTICE` must stay truthful.
 - The display name lives on the server (`Account.displayName`). `initials()` for the avatar is in `lib/text.ts`.
-- **Drafts are local-only by design.** Assignments, drafts, checks and private rubrics live in the browser; only the text being checked goes to the backend, which doesn't store it. The database holds accounts, sessions and usage counts only.
+- **Drafts are local-only by design.** Assignments, drafts, checks and students' own rubrics live in the browser; only the text being checked goes to the backend, which doesn't store it. The database holds accounts, sessions and usage counts only.
 
 **Domain logic, split so it's testable without React**
 - `lib/types.ts` mirrors the planned API shapes.
@@ -106,7 +106,7 @@ CI (`.github/workflows/ci.yml`) runs:
 - **Honesty rules are enforced by a test:**
   - no fake testimonials, statistics or accuracy claims
   - "grade" appears only as a denial ("an estimate, not a grade")
-  - open-source claims stay accurate: the **core** code is MIT on GitHub (`GITHUB_URL` in `content.ts`); the hosted site may add private features
+  - open-source claims stay accurate: the code is MIT on GitHub (`GITHUB_URL` in `content.ts`)
   - sample content is original and labeled as an example
 
 **Lint rule to know:** `react-refresh/only-export-components` means a `.tsx` file may only export components. Put hooks, constants and helpers in `.ts` files.

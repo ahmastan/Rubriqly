@@ -3,8 +3,6 @@ name = "rubriqly"
 version = "0.1.0"
 description = "A rubric self-checker for student drafts, powered by the Jev scoring model."
 readme = "README.md"
-# An app, not a library: this classifier makes PyPI reject any accidental upload.
-classifiers = ["Private :: Do Not Upload"]
 requires-python = ">=3.12"
 dependencies = [
     "alembic>=1.20.0",
