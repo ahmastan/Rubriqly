@@ -27,6 +27,8 @@ describe('Privacy policy', () => {
       'You must be 13 or older',
       'United States',
       'The file itself isn’t sent anywhere',
+      'This policy covers the Rubriqly service at rubriqly.com',
+      'GitHub’s own privacy policy applies',
     ]) {
       expect(text).toContain(fact)
     }
@@ -50,6 +52,8 @@ describe('Terms of use', () => {
     expect(text).toContain('never writes or rewrites your text')
     expect(text).toContain('laws of the United States')
     expect(text).toContain('MIT License')
+    expect(text).toContain('aren’t covered by these terms')
+    expect(text).toContain('doesn’t cover the Rubriqly name or logo')
     expect(termsOfUse.sections.length).toBeGreaterThan(5)
   })
 })

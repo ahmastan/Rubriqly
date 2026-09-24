@@ -18,12 +18,16 @@ export async function renderRoute(path: string) {
     </QueryClientProvider>,
   )
   // Done when the router has loaded the page AND React has replaced the loading placeholder.
-  await waitFor(() => {
-    const loading =
-      !router.state.initialized ||
-      router.state.navigation.state !== 'idle' ||
-      utils.container.querySelector('[data-page-fallback]') !== null
-    if (loading) throw new Error('page still loading')
-  })
+  await waitFor(
+    () => {
+      const loading =
+        !router.state.initialized ||
+        router.state.navigation.state !== 'idle' ||
+        utils.container.querySelector('[data-page-fallback]') !== null
+      if (loading) throw new Error('page still loading')
+      // The first visit downloads a page's code; slow CI machines can need more than the 1 s default.
+    },
+    { timeout: 5000 },
+  )
   return { ...utils, router, user }
 }
