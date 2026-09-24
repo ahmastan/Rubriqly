@@ -1,0 +1,192 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens. Components use the Tailwind names below (bg-surface, text-ink-2, ...),
+ * which point at these variables, so dark mode only needs a second set of values here.
+ * `.theme-light` / `.theme-dark` force one palette on a section whatever the user's theme
+ * (the landing page is dark with paper-colored bands). Elements using them must set their
+ * own text and background color, e.g. `theme-dark bg-bg text-ink`.
+ */
+:root,
+.theme-light {
+  color-scheme: light;
+  --bg: #f7f6f2;
+  --surface: #ffffff;
+  --chrome: #fbfaf7;
+  --border: #e3e2dc;
+  --divider: #eeede8;
+  --field-border: #d6d5ce;
+  --faint: #c9cac4;
+
+  --ink: #1a1b1e;
+  --ink-body: #26272b;
+  --ink-soft: #3f4147;
+  --ink-2: #55585f;
+
+  /* Dark blue: the main accent (level bars, links, focus, "present" tags). */
+  --accent: #1e3a8a;
+  --accent-hover: #172e6e;
+  --accent-soft: #e6ecf8;
+  --accent-mid: #9db0dc;
+  --accent-pale: #d3ddf1;
+
+  /* Dark purple: the brand accent (logo, avatar, the overall result card). */
+  --accent-2: #4c1d95;
+  --accent-2-hover: #3b1675;
+  --accent-2-soft: #eee8f8;
+  --feature: #3b1675;
+  --feature-ink-2: #d9ccf5;
+
+  --warn: #7a4808;
+  --warn-bg: #fbf1e3;
+  --warn-ring: #9a5b0b;
+  --highlight: #fbf6ee;
+
+  /* Red, only for destructive actions like deleting. */
+  --danger: #b42318;
+  --danger-bg: #fdecea;
+  --danger-ring: #e5a29b;
+
+  --muted: #f1f0eb;
+  --segmented: #ecebe5;
+  --selected: #e9e8e1;
+  --handle: #8b8e95;
+
+  --dark: #1a1b1e;
+  --dark-2: #2c2e33;
+  --dark-border: #3a3c42;
+  --dark-code: #111215;
+  --dark-code-ink: #d9e8e5;
+  --dark-ink: #e9e8e3;
+}
+
+/* Dark mode: the same tokens with dark values. Set by src/lib/theme.ts on <html data-theme>. */
+:root[data-theme='dark'],
+.theme-dark {
+  color-scheme: dark;
+  --bg: #141517;
+  --surface: #1b1c1f;
+  --chrome: #111214;
+  --border: #2b2d32;
+  --divider: #232529;
+  --field-border: #3a3c42;
+  --faint: #a3a5aa;
+
+  --ink: #ecece8;
+  --ink-body: #dcdcd6;
+  --ink-soft: #c0c1bc;
+  --ink-2: #9fa1a7;
+
+  --accent: #8fa8e8;
+  --accent-hover: #afc2f0;
+  --accent-soft: #1a2440;
+  --accent-mid: #3a5190;
+  --accent-pale: #232f52;
+
+  --accent-2: #b79cf0;
+  --accent-2-hover: #cbb6f5;
+  --accent-2-soft: #2a1f45;
+  --feature: #2e2150;
+  --feature-ink-2: #cdbff0;
+
+  --warn: #f0b866;
+  --warn-bg: #35280f;
+  --warn-ring: #d9973a;
+  --highlight: #221e16;
+
+  --danger: #f97066;
+  --danger-bg: #3a1614;
+  --danger-ring: #7a2e28;
+
+  --muted: #25272b;
+  --segmented: #202226;
+  --selected: #2a2c31;
+  --handle: #7c7f86;
+
+  --dark: #26282c;
+  --dark-2: #33353a;
+  --dark-border: #45474d;
+  --dark-code: #151618;
+  --dark-code-ink: #cfe3df;
+  --dark-ink: #e9e8e3;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-chrome: var(--chrome);
+  --color-border: var(--border);
+  --color-divider: var(--divider);
+  --color-field-border: var(--field-border);
+  --color-faint: var(--faint);
+  --color-ink: var(--ink);
+  --color-ink-body: var(--ink-body);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-2: var(--ink-2);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-mid: var(--accent-mid);
+  --color-accent-pale: var(--accent-pale);
+  --color-accent-2: var(--accent-2);
+  --color-accent-2-hover: var(--accent-2-hover);
+  --color-accent-2-soft: var(--accent-2-soft);
+  --color-feature: var(--feature);
+  --color-feature-ink-2: var(--feature-ink-2);
+  --color-warn: var(--warn);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-ring: var(--warn-ring);
+  --color-highlight: var(--highlight);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-ring: var(--danger-ring);
+  --color-muted: var(--muted);
+  --color-segmented: var(--segmented);
+  --color-selected: var(--selected);
+  --color-handle: var(--handle);
+  --color-dark: var(--dark);
+  --color-dark-2: var(--dark-2);
+  --color-dark-border: var(--dark-border);
+  --color-dark-code: var(--dark-code);
+  --color-dark-code-ink: var(--dark-code-ink);
+  --color-dark-ink: var(--dark-ink);
+
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+  --font-serif: 'Newsreader Variable', Georgia, serif;
+}
+
+/* Landing pages paint dark before their code loads (set by the script in index.html). */
+html[data-landing],
+html[data-landing] body {
+  background: #141517;
+}
+
+@layer base {
+  html,
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  a {
+    color: var(--accent);
+  }
+  a:hover {
+    color: var(--accent-hover);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}

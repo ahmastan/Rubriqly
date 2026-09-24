@@ -1,0 +1,44 @@
+/*
+ * FAQ answers slide open instead of snapping. This animates the native <details> element, so
+ * keyboard and screen reader behavior are unchanged. Browsers without `interpolate-size`
+ * simply open instantly.
+ */
+@supports (interpolate-size: allow-keywords) {
+  .faq-item {
+    interpolate-size: allow-keywords;
+  }
+  .faq-item::details-content {
+    height: 0;
+    overflow: clip;
+    transition:
+      height 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      content-visibility 0.4s allow-discrete;
+  }
+  .faq-item[open]::details-content {
+    height: auto;
+  }
+}
+
+.faq-item[open] .faq-answer {
+  animation: faq-answer-in 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes faq-answer-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-item::details-content {
+    transition: none;
+  }
+  .faq-item[open] .faq-answer {
+    animation: none;
+  }
+}

@@ -1,0 +1,46 @@
+# Enable once the git repo exists:  cd rubriqly-backend && uv run pre-commit install --config ../.pre-commit-config.yaml
+# Ruff and Prettier run from the project's own installs, so their versions match uv.lock / package-lock.json.
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      - id: detect-private-key
+
+  - repo: local
+    hooks:
+      - id: no-env-files
+        name: block committing .env files
+        entry: .env files contain secrets and must not be committed (use .env.example)
+        language: fail
+        files: (^|/)\.env($|\.)
+        exclude: \.env\.example$
+
+      - id: ruff-check
+        name: ruff check (backend)
+        entry: uv run --project rubriqly-backend ruff check --fix
+        language: system
+        types: [python]
+        files: ^rubriqly-backend/
+
+      - id: ruff-format
+        name: ruff format (backend)
+        entry: uv run --project rubriqly-backend ruff format
+        language: system
+        types: [python]
+        files: ^rubriqly-backend/
+
+      - id: prettier
+        name: prettier (frontend)
+        entry: npm --prefix rubriqly-frontend exec -- prettier --write --ignore-unknown
+        language: system
+        files: ^rubriqly-frontend/
+        exclude: ^rubriqly-frontend/package-lock\.json$

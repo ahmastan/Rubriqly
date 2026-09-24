@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rubriqly · Check your draft against the rubric</title>
+    <meta
+      name="description"
+      content="Rubriqly checks your draft against the rubric and shows, paragraph by paragraph, where to revise. Estimated levels, not grades, and it never writes a word for you."
+    />
+    <meta name="theme-color" content="#141517" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!--
+      Link previews (share cards). Social sites need full addresses, so the SITE_URL placeholder is
+      filled in at build time from VITE_SITE_URL (see vite.config.ts); og:url is dropped without it.
+    -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Rubriqly" />
+    <meta
+      property="og:title"
+      content="Rubriqly · Know where your draft stands before you hit submit"
+    />
+    <meta
+      property="og:description"
+      content="Check a draft against the rubric and see, paragraph by paragraph, where to revise. It never writes for you."
+    />
+    <meta property="og:url" content="%SITE_URL%/" />
+    <meta property="og:image" content="%SITE_URL%/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Rubriqly: an essay draft tagged by paragraph, with Analysis at level 2 of 4."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Rubriqly · Know where your draft stands before you hit submit"
+    />
+    <meta
+      name="twitter:description"
+      content="Check a draft against the rubric and see, paragraph by paragraph, where to revise. It never writes for you."
+    />
+    <meta name="twitter:image" content="%SITE_URL%/og-image.png" />
+
+    <script>
+      // Runs before first paint. Keep in sync with src/lib/theme.ts and LandingPage.tsx.
+      try {
+        // The app's light/dark theme, so dark mode doesn't flash white.
+        var pref = localStorage.getItem('rubriqly:theme') || 'system'
+        var dark =
+          pref === 'dark' ||
+          (pref === 'system' && matchMedia('(prefers-color-scheme: dark)').matches)
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light'
+      } catch (e) {}
+      // The landing pages are always dark: paint dark from the very first frame.
+      if (/^\/(privacy|terms|contact)?$/.test(location.pathname)) {
+        document.documentElement.dataset.landing = ''
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

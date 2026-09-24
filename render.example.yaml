@@ -1,0 +1,95 @@
+# Example Render Blueprint. To deploy your own copy: copy this file to render.yaml, replace every
+# YOUR-… placeholder, and follow docs/self-hosting.md. Tells Render what to create from this repo.
+# - rubriqly: the frontend (landing page + app), a free static site
+# - rubriqly-api: the backend (FastAPI), a free web service. Its database is on Neon.
+# The site forwards /api/* to the backend, so both share one address and the sign-in cookie works.
+services:
+  - type: web
+    runtime: static
+    name: rubriqly
+    rootDir: rubriqly-frontend # build and publish paths below are relative to this folder
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    # Deploy a new version only after GitHub's checks (the CI workflow) pass.
+    autoDeployTrigger: checksPass
+    # Only frontend changes trigger a new deploy.
+    buildFilter:
+      paths:
+        - rubriqly-frontend/**
+    envVars:
+      - key: NODE_VERSION
+        value: '24'
+      # Build-time settings for this deployment (see rubriqly-frontend/src/env.d.ts).
+      - key: VITE_SITE_URL
+        value: https://YOUR-SITE.example
+      - key: VITE_CONTACT_EMAIL
+        value: YOUR-CONTACT@YOUR-SITE.example
+    routes:
+      # Rules are checked in order, so this one must come first. Use your API service's address
+      # (shown at the top of its page on Render).
+      - type: rewrite
+        source: /api/*
+        destination: https://YOUR-API-SERVICE.onrender.com/api/*
+      # The app handles its own pages (/check/new, /settings, ...), so every address that isn't
+      # a real file gets index.html. Without this, refreshing a page would show a 404.
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      # Built files have a content hash in their name, so browsers can cache them forever.
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      # index.html must always be fresh, so visitors get the newest version after a deploy.
+      - path: /index.html
+        name: Cache-Control
+        value: no-cache
+      # Basic security headers.
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+
+  - type: web
+    runtime: python
+    name: rubriqly-api
+    plan: free # sleeps after ~15 minutes without visitors; the first request wakes it (~1 min)
+    region: oregon # next to the Neon database (AWS US West 2)
+    rootDir: rubriqly-backend # has uv.lock, so Render provides uv
+    buildCommand: uv sync --frozen --no-dev
+    # Apply any new database migrations, then start the server.
+    startCommand: >-
+      uv run --no-sync alembic upgrade head &&
+      uv run --no-sync uvicorn rubriqly.main:app --host 0.0.0.0 --port $PORT
+      --proxy-headers --forwarded-allow-ips '*'
+    # Never touches the database, so these checks don't keep Neon awake.
+    healthCheckPath: /api/health
+    autoDeployTrigger: checksPass
+    # Only backend changes trigger a new deploy.
+    buildFilter:
+      paths:
+        - rubriqly-backend/**
+    envVars:
+      - key: PYTHON_VERSION
+        value: '3.13'
+      - key: ENVIRONMENT
+        value: production
+      - key: JEV_MODE
+        value: live # real, paid Jev calls (capped by the limits and the Vercel budget)
+      - key: ALLOWED_ORIGINS
+        value: https://YOUR-SITE.example,https://YOUR-SITE-SERVICE.onrender.com
+      # The visitor's address for the sign-ups-per-network limit (checked after the first deploy).
+      - key: CLIENT_IP_HEADER
+        value: x-forwarded-for
+      # Secrets: Render asks for these (sync: false), or generates one. Never put them in this file.
+      - key: DATABASE_URL
+        sync: false # the Neon *production* connection string
+      - key: AI_GATEWAY_API_KEY
+        sync: false # the Vercel key named rubriqly-render
+      - key: SECRET_KEY
+        generateValue: true

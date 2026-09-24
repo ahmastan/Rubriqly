@@ -1,0 +1,8 @@
+Database migrations (Alembic). The database comes from DATABASE_URL, see env.py.
+
+  uv run alembic current                        # which migration the database is on
+  uv run alembic upgrade head                   # apply new migrations
+  uv run alembic revision --autogenerate -m ".."  # draft a new one; always review it by hand
+
+Autogenerate against a throw-away SQLite file, never Neon, and check Postgres
+compatibility (e.g. booleans use sa.true()/sa.false(), not "1"/"0").
