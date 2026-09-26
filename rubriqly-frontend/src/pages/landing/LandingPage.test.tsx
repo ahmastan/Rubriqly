@@ -47,6 +47,22 @@ describe('Landing page', () => {
     expect(screen.getByRole('link', { name: /see how it works/i })).toHaveAttribute('href', '#demo')
   })
 
+  it('glides nav and logo clicks on the page instead of navigating', async () => {
+    const { user, router } = await renderRoute('/')
+    const sections = (await screen.findAllByRole('navigation', { name: 'Page sections' }))[0]
+    await user.click(within(sections).getByRole('link', { name: 'FAQ' }))
+    expect(window.location.hash).toBe('#faq')
+    await user.click(screen.getAllByRole('link', { name: 'Rubriqly home' })[0])
+    expect(router.state.location.pathname).toBe('/')
+    expect(window.location.hash).toBe('')
+  })
+
+  it('sends the logo home from the legal pages', async () => {
+    const { user, router } = await renderRoute('/privacy')
+    await user.click(screen.getAllByRole('link', { name: 'Rubriqly home' })[0])
+    await waitFor(() => expect(router.state.location.pathname).toBe('/'))
+  })
+
   it('shows the real built-in rubrics plus build your own, in both library versions', async () => {
     await renderRoute('/')
     await screen.findByRole('heading', { level: 1 })
