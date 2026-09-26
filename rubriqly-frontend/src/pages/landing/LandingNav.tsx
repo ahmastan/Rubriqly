@@ -6,11 +6,14 @@ import { LogoMark } from '../../components/Logo'
 import { buttonStyles, cn } from '../../lib/ui'
 import { nav } from './content'
 import { container } from './ui'
+import { useGlideTo } from './useGlideTo'
 
 export function Wordmark() {
+  const glideTo = useGlideTo()
   return (
     <Link
       to="/"
+      onClick={glideTo('top')}
       aria-label="Rubriqly home"
       className="flex items-center gap-2.5 text-ink no-underline hover:text-ink"
     >
@@ -22,6 +25,7 @@ export function Wordmark() {
 
 export function LandingNav() {
   const [open, setOpen] = useState(false)
+  const glideTo = useGlideTo()
   // See-through over the hero; frosted with a border once you've scrolled past most of it.
   const { scrollY } = useScroll()
   const [scrolled, setScrolled] = useState(false)
@@ -43,6 +47,7 @@ export function LandingNav() {
             <a
               key={link.href}
               href={link.href}
+              onClick={glideTo(link.href)}
               className="rounded-lg px-3 py-2 text-sm text-ink-soft no-underline hover:bg-muted hover:text-ink"
             >
               {link.label}
@@ -76,7 +81,10 @@ export function LandingNav() {
               <a
                 key={link.href}
                 href={link.href}
-                onClick={() => setOpen(false)}
+                onClick={(event) => {
+                  setOpen(false)
+                  glideTo(link.href)(event)
+                }}
                 className="rounded-lg px-3 py-2.5 text-[15px] text-ink no-underline hover:bg-muted hover:text-ink"
               >
                 {link.label}
